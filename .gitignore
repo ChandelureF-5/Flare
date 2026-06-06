@@ -1,0 +1,18 @@
+# love2d builds
+*.love
+*.exe
+*.app
+
+# luarocks
+*.rock
+luarocks/
+
+# os
+.DS_Store
+Thumbs.db
+
+# editors
+.vscode/
+.idea/
+*.swp
+*.swo
