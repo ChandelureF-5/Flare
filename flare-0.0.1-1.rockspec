@@ -2,7 +2,7 @@ package = "flare"
 version = "0.0.1-1"
 
 source = {
-    url = "git+https://github.com/HeroEyad/flare.git",
+    url = "git+https://github.com/HeroEyad/Flare.git",
     tag = "v0.0.1"
 }
 
