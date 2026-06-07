@@ -20,8 +20,6 @@ flare.video = load("graphics.video")
 flare.keyboard = load("input.keyboard")
 
 flare.math = load("math.math")
-flare.vector = load("math.vector")
-flare.vectorlight = load("math.vector-light")
 
 flare.sound = load("audio.sound")
 
