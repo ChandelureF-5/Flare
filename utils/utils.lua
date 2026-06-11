@@ -184,39 +184,64 @@ function Utils.openURL(url)
     love.system.openURL(url)
     return true
 end
+
+---Trims a string
+---@param s string The string to be trimmed
+---@return string The trimmed string
+function Utils.trim(s)
+    return s:gsub("^%s+", ""):gsub("%s+$", "")
+end
+
+---Runs a powershell command
+---@param cmd The command to run.
+---@return string|nil
+function Utils.pread(cmd)
+    local h = io.popen(cmd)
+    if not h then return nil end
+    local r = h:read("*a")
+    h:close()
+    return Utils.trim(r)
+end
+
 ---Returns a CPU Name.
 ---@return string
-function getCPUName()
-    if love.system.getOS() ~= "Windows" then
-        return "Unsupported OS"
-    end
+function Utils.getCPUName()
+    local platform = love.system.getOS()
 
-    local handle = io.popen('wmic cpu get Name /value')
-
-    if handle then
-        local result = handle:read("*a")
-        handle:close()
-
-        local name = result:match("Name=(.-)\r?\n")
-
-        if name and name ~= "" then
-            return name
+    return Utils.switch(platform, {
+    ["Windows"] = function()
+        local result = Utils.pread('wmic cpu get Name /value')
+        if result then
+            local name = Utils.trim(result:match("Name=(.-)\r?\n") or "")
+            if name ~= "" then return name end
         end
-    end
 
-    local ps = io.popen('powershell -Command "(Get-CimInstance Win32_Processor).Name"')
-
-    if ps then
-        local result = ps:read("*a")
-        ps:close()
-
-        result = result:gsub("^%s+", ""):gsub("%s+$", "")
-
-        if result ~= "" then
-            return result
+        local ps = Utils.pread('powershell -Command "(Get-CimInstance Win32_Processor).Name"')
+        if ps and ps ~= "" then return ps end
+    end,
+    ["OS X"] = function()
+        local result = Utils.pread('sysctl -n machdep.cpu.brand_string')
+        if result and result ~= "" then return result end
+    end,
+    ["Linux"] = function()
+        local result = Utils.pread('lscpu')
+        if result then
+            local name = Utils.trim(result:match("Model name:%s*(.-)\n") or "")
+            if name ~= "" then return name end
         end
-    end
 
-    return "Unknown"
+        local f = io.open('/proc/cpuinfo', 'r')
+        if f then
+            local content = f:read("*a")
+            f:close()
+            local name = Utils.trim(content:match("model name%s*:%s*(.-)\n") or "")
+            if name ~= "" then return name end
+        end
+    end,
+    default = function()
+        return "Unknown"
+    end
+})
+
 end
 return Utils

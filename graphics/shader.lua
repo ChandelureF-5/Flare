@@ -12,8 +12,8 @@ Shader.__index = Shader
 --- @return Shader
 function Shader.new(path)
     local self = setmetatable({}, Shader)
-    self.path    = path
-    self.shader  = Assets.shader(path)
+    self.path = path
+    self.shader = Assets.shader(path)
     self.enabled = true
     return self
 end

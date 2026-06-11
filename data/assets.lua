@@ -150,7 +150,7 @@ end
 ---@return table
 function Assets.jsonData(path)
     if not Assets.json[path] then
-        local Json = require("data.json")
+        local Json = require("flare.data.json")
         Assets.json[path] = Json.decode(Assets.text(path))
     end
 
