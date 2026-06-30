@@ -28,7 +28,6 @@ build = {
         ["flare.core.basic"] = "core/basic.lua",
         ["flare.core.gamestate"] = "core/gamestate.lua",
         ["flare.core.object"] = "core/object.lua",
-        ["flare.core.signal"] = "core/signal.lua",
         ["flare.graphics.camera"] = "graphics/camera.lua",
         ["flare.graphics.shader"] = "graphics/shader.lua",
         ["flare.graphics.sprite"] = "graphics/sprite.lua",
