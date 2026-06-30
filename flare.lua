@@ -9,7 +9,6 @@ end
 flare.basic = load("core.basic")
 flare.gamestate = load("core.gamestate")
 flare.object = load("core.object")
-flare.signal = load("core.signal")
 
 flare.sprite = load("graphics.sprite")
 flare.text = load("graphics.text")
